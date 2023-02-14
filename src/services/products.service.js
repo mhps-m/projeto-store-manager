@@ -1,10 +1,10 @@
-const errors = require('restify-errors');
+const HttpError = require('http-errors');
 const { productsModel } = require('../models/index');
 
 const findAll = async () => {
   const products = await productsModel.findAll();
 
-  if (!products.length) throw new errors.NotFoundError('No products found');
+  if (!products.length) throw new HttpError(404, 'No products found');
   
   return products;
 };
@@ -12,7 +12,7 @@ const findAll = async () => {
 const findById = async (productId) => {
   const product = await productsModel.findById(productId);
 
-  if (!product) throw new errors.NotFoundError('Product not found');
+  if (!product) throw new HttpError(404, 'Product not found');
   
   return product;
 };
