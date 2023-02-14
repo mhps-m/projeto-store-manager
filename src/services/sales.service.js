@@ -29,6 +29,24 @@ const insert = async (saleDetails) => {
   return newSale;
 };
 
+const findAll = async () => {
+  const sales = await salesModel.findAll();
+
+  if (!sales.length) throw new HttpError(404, 'No sales found');
+
+  return sales;
+};
+
+const findById = async (id) => {
+  const sale = await salesModel.findById(id);
+
+  if (!sale.length) throw new HttpError(404, 'Sale not found');
+
+  return sale;
+};
+
 module.exports = {
   insert,
+  findAll,
+  findById,
 };
