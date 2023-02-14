@@ -30,8 +30,23 @@ const insert = async (productName) => {
   return newProduct;
 };
 
+const update = async (productName, productId) => {
+  const validation = schemas.validateProductName(productName);
+
+  if (HttpError.isHttpError(validation)) throw validation;
+
+  await findById(productId);
+
+  await productsModel.update(productName, productId);
+
+  const updatedProduct = await findById(productId);
+
+  return updatedProduct;
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
+  update,
 };
