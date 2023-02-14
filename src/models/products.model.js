@@ -1,4 +1,3 @@
-const camelize = require('camelize');
 const connection = require('./connection');
 
 const findAll = async () => {
@@ -6,7 +5,7 @@ const findAll = async () => {
     `SELECT * FROM StoreManager.products
      ORDER BY id;`,
   );
-  return camelize(result);
+  return result;
 };
 
 const findById = async (productId) => {
@@ -15,10 +14,19 @@ const findById = async (productId) => {
     [productId],
   );
 
-  return camelize(result);
+  return result;
 };
 
+const insert = async (productName) => {
+  const [{ insertId }] = await connection.execute(
+    'INSERT INTO StoreManager.products (name) VALUE (?)',
+    [productName],
+  );
+
+  return insertId;
+};
 module.exports = {
   findAll,
   findById,
+  insert,
 };
