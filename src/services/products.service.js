@@ -1,5 +1,6 @@
 const HttpError = require('http-errors');
 const { productsModel } = require('../models/index');
+const schemas = require('./validations/validateInputs');
 
 const findAll = async () => {
   const products = await productsModel.findAll();
@@ -18,6 +19,10 @@ const findById = async (productId) => {
 };
 
 const insert = async (productName) => {
+  const validation = schemas.validateProductName(productName);
+
+  if (HttpError.isHttpError(validation)) throw validation;
+
   const newProductId = await productsModel.insert(productName);
 
   const newProduct = await productsModel.findById(newProductId);
