@@ -44,9 +44,16 @@ const update = async (productName, productId) => {
   return updatedProduct;
 };
 
+const remove = async (productId) => {
+  await findById(productId);
+
+  return productsModel.remove(productId);
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
   update,
+  remove,
 };
