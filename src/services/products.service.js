@@ -25,7 +25,7 @@ const insert = async (productName) => {
 
   const newProductId = await productsModel.insert(productName);
 
-  const newProduct = await productsModel.findById(newProductId);
+  const newProduct = await findById(newProductId);
 
   return newProduct;
 };

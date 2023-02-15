@@ -13,18 +13,18 @@ const productsMock = [
   },
 ];
 
-const noProductsErrorMock = {
-  code: 'NotFound',
-  message: 'No products found',
+const newProductMock = {
+  id: 4,
+  name: 'Pochita',
 };
 
-const noProductWithIdErrorMock = {
-  code: 'NotFound',
-  message: 'Product not found',
+const updatedProductMock = {
+  id: 1,
+  name: 'Wanda Maximoff',
 };
 
 module.exports = {
   productsMock,
-  noProductsErrorMock,
-  noProductWithIdErrorMock,
+  newProductMock,
+  updatedProductMock,
 };
