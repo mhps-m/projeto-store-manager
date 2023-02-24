@@ -19,7 +19,7 @@ const findById = async (productId) => {
 
 const insert = async (productName) => {
   const [{ insertId }] = await connection.execute(
-    'INSERT INTO StoreManager.products (name) VALUE (?)',
+    'INSERT INTO StoreManager.products (name) VALUE (?);',
     [productName],
   );
 
@@ -28,14 +28,14 @@ const insert = async (productName) => {
 
 const update = async (productName, productId) => (
   connection.execute(
-    'UPDATE StoreManager.products SET name = ? WHERE id = ?',
+    'UPDATE StoreManager.products SET name = ? WHERE id = ?;',
     [productName, productId],
   )
 );
 
 const remove = async (productId) => (
   connection.execute(
-    'DELETE FROM StoreManager.products WHERE id = ?',
+    'DELETE FROM StoreManager.products WHERE id = ?;',
     [productId],
   )
 );

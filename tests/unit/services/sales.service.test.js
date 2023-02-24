@@ -82,5 +82,23 @@ describe('Testa camada service de vendas', function () {
     });
   });
 
+  describe('Deleta uma venda pelo seu id', function () {
+    it('Deleta uma venda com sucesso', async function () {
+      sinon.stub(salesModel, 'findById').resolves(saleByIdMock);
+      sinon.stub(salesModel, 'remove').resolves([{ affectedRows: 1 }]);
+
+      await expect(salesService.remove(1))
+        .not.to.eventually.be.rejected;
+    });
+
+    it('Erro ao tentar deletar uma venda inexistente', async function () {
+      sinon.stub(salesModel, 'findById').resolves([]);
+
+      await expect(salesService.remove(3))
+        .to.eventually.be.rejectedWith('Sale not found')
+        .with.property('statusCode', 404);
+    });
+  });
+
   afterEach(sinon.restore);
 });

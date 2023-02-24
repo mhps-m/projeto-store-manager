@@ -35,5 +35,13 @@ describe('Testes de unidade da camada model de vendas', function () {
     expect(result).to.deep.equal(saleByIdMock);
   });
 
+  it('Deletando uma venda pelo seu id', async function () {
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+
+    const [{ affectedRows }] = await salesModel.remove(1);
+
+    expect(affectedRows).to.deep.equal(1);
+  });
+
   afterEach(sinon.restore);
 });

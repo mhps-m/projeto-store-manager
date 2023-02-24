@@ -45,8 +45,15 @@ const findById = async (id) => {
   return sale;
 };
 
+const remove = async (id) => {
+  await findById(id);
+
+  await salesModel.remove(id);
+};
+
 module.exports = {
   insert,
   findAll,
   findById,
+  remove,
 };

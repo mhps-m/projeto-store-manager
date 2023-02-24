@@ -63,5 +63,24 @@ describe('Testa a camada controller de vendas', function () {
     expect(res.json).to.have.been.calledWith(saleByIdMock);
   });
 
+  it('Deleta uma venda com id igual ao passado como parâmetro', async function () {
+    const req = {
+      params: {
+        id: 1,
+      },
+    };
+
+    const res = { status: '', json: '' };
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(salesService, 'remove').resolves(saleByIdMock); 
+
+    await salesController.remove(req, res);
+
+    expect(res.status).to.have.been.calledWith(204);
+    expect(res.json).to.have.been.calledWith();
+  });
+
   afterEach(sinon.restore);
 });

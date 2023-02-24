@@ -22,8 +22,17 @@ const findById = async (req, res) => {
   res.status(200).json(sale);
 };
 
+const remove = async (req, res) => {
+  const saleId = req.params.id;
+
+  await salesService.remove(saleId);
+
+  res.status(204).json();
+};
+
 module.exports = {
   insert,
   findAll,
   findById,
+  remove,
 };
