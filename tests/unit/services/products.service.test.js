@@ -53,20 +53,20 @@ describe('Testes de unidade do service de produtos', function () {
       sinon.stub(productsModel, 'insert').resolves(4);
       sinon.stub(productsModel, 'findById').resolves(newProductMock);
 
-      const result = await productsService.insert('Pelúcia Alvis Xenoblade');
+      const result = await productsService.insert({ name: 'Pelúcia Alvis Xenoblade' });
 
       expect(result).to.deep.equal(newProductMock);
     });
 
     describe('Retorna um erro ao tentar inserir um produto com parâmetros incorretos', function () {
       it('Erro ao tentar inserir um produto sem nome', async function () {
-        await expect(productsService.insert())
+        await expect(productsService.insert({}))
           .to.eventually.be.rejectedWith('"name" is required')
           .with.property('statusCode', 400);
       });
 
       it('Erro ao tentar inserir um produto com nome menor que 5 caracteres', async function () {
-        await expect(productsService.insert('nome'))
+        await expect(productsService.insert({ name: 'nome' }))
           .to.eventually.be.rejectedWith('"name" length must be at least 5 characters long')
           .with.property('statusCode', 422);
       });
@@ -78,20 +78,20 @@ describe('Testes de unidade do service de produtos', function () {
       sinon.stub(productsModel, 'update').resolves([{ affectedRows: 1 }]);
       sinon.stub(productsModel, 'findById').resolves(updatedProductMock);
 
-      const result = await productsService.update('Pelúcia Zanza Xenoblade', 1);
+      const result = await productsService.update({ name: 'Pelúcia Zanza Xenoblade' }, 1);
 
       expect(result).to.deep.equal(updatedProductMock);
     });
 
     describe('Testa erros ao tentar atualizar um produto', function () {
       it('Erro ao tentar atualizar um produto sem nome', async function () {
-        await expect(productsService.update(undefined, 1))
+        await expect(productsService.update({}, 1))
           .to.eventually.be.rejectedWith('"name" is required')
           .with.property('statusCode', 400);
       });
 
       it('Erro ao tentar atualizar um produto com nome menor que 5 caracteres', async function () {
-        await expect(productsService.update('name', 1))
+        await expect(productsService.update({ name: 'name' }, 1))
           .to.eventually.be.rejectedWith('"name" length must be at least 5 characters long')
           .with.property('statusCode', 422);
       });
@@ -99,7 +99,7 @@ describe('Testes de unidade do service de produtos', function () {
       it('Erro ao tentar atualizar um produto inexistente', async function () {
         sinon.stub(productsModel, 'findById').resolves(undefined);
 
-        await expect(productsService.update('newName', 4))
+        await expect(productsService.update({ name: 'newName' }, 4))
           .to.eventually.be.rejectedWith('Product not found')
           .with.property('statusCode', 404);
       });

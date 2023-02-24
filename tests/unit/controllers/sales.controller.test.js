@@ -7,6 +7,7 @@ const {
   newSaleMock,
   allSalesMock,
   saleByIdMock,
+  updatedSaleMock,
 } = require('./mocks/sales.controller.mock');
 
 use(sinonChai);
@@ -80,6 +81,26 @@ describe('Testa a camada controller de vendas', function () {
 
     expect(res.status).to.have.been.calledWith(204);
     expect(res.json).to.have.been.calledWith();
+  });
+
+  it('Atualiza uma venda', async function () {
+    const req = {
+      body: updatedSaleMock.itemsSold,
+      params: {
+        id: updatedSaleMock.saleId,
+      },
+    };
+
+    const res = { status: '', json: '' };
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(salesService, 'update').resolves(updatedSaleMock);
+
+    await salesController.update(req, res);
+
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(updatedSaleMock);
   });
 
   afterEach(sinon.restore);

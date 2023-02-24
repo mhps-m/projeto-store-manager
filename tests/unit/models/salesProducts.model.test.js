@@ -15,4 +15,15 @@ describe('Testes de unidade da camada model de detalhes de vendas', function () 
     
     expect(affectedRows).to.deep.equal(1);
   });
+
+  it('Remove detalhes de uma venda', async function () {
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+
+    const [{ affectedRows }] = await salesProductsModel
+      .remove(saleDetailsMock.id);
+
+    expect(affectedRows).to.deep.equal(1);
+  });
+
+  afterEach(sinon.restore);
 });
