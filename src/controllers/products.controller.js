@@ -14,7 +14,7 @@ const findById = async (req, res) => {
 };
 
 const insert = async (req, res) => {
-  const productName = req.body.name;
+  const productName = req.body;
 
   const newProduct = await productsService.insert(productName);
 
@@ -24,7 +24,7 @@ const insert = async (req, res) => {
 const update = async (req, res) => {
   const productId = req.params.id;
 
-  const productName = req.body.name;
+  const productName = req.body;
 
   const updatedProduct = await productsService.update(productName, productId);
 

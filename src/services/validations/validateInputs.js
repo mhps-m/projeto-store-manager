@@ -4,22 +4,30 @@ const schemas = require('./schemas');
 const validateProductName = (productName) => {
   if (!productName) return new HttpError(400, '"name" is required');
   
-  const validation = schemas.newProductSchema.validate({ name: productName });
+  const validation = schemas.newProductSchema.validate(productName);
 
-  if (validation.error) return new HttpError(422, validation.error.message);
+  if (validation.error) throw new HttpError(422, validation.error.message);
 };
 
-const validateNewSale = (saleDetails) => {
-  const validation = schemas.newSaleSchema.validate(saleDetails);
+const validateProductSold = (productSold) => {
+  const validation = schemas.saleDetailsSchema.validate(productSold);
 
   if (validation.error) {
-    const newErrorMessage = `"${(validation.error.message.split('.'))[1]}`;
+    // const newErrorMessage = `"${(validation.error.message.split('.'))[1]}`;
     const errorStatusCode = validation.error.message.includes('is required') ? 400 : 422;
-    return new HttpError(errorStatusCode, newErrorMessage);
+    throw new HttpError(errorStatusCode, validation.error.message);
   }
+};
+
+const validateSaleDetails = (sale) => {
+  if (!Array.isArray(sale) || !sale.length) {
+    throw new HttpError(400, 'Body must be an array of objects');
+  }
+
+  sale.map((productSold) => validateProductSold(productSold));
 };
 
 module.exports = {
   validateProductName,
-  validateNewSale,
+  validateSaleDetails,
 };

@@ -30,9 +30,19 @@ const remove = async (req, res) => {
   res.status(204).json();
 };
 
+const update = async (req, res) => {
+  const updateDetails = req.body;
+  const saleId = req.params.id;
+
+  const updatedSale = await salesService.update(saleId, updateDetails);
+
+  res.status(200).json(updatedSale);
+};
+
 module.exports = {
   insert,
   findAll,
   findById,
   remove,
+  update,
 };

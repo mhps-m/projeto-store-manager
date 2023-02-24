@@ -8,6 +8,14 @@ const insert = async (saleId, productId, quantity) => (
   )
 );
 
+const remove = async (saleId) => (
+  connection.execute(
+    'DELETE FROM StoreManager.sales_products WHERE sale_id = ?;',
+    [saleId],
+  )
+);
+
 module.exports = {
   insert,
+  remove,
 };

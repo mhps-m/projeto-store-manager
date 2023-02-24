@@ -18,26 +18,22 @@ const findById = async (productId) => {
   return product;
 };
 
-const insert = async (productName) => {
-  const validation = schemas.validateProductName(productName);
+const insert = async (product) => {
+  schemas.validateProductName(product);
 
-  if (HttpError.isHttpError(validation)) throw validation;
-
-  const newProductId = await productsModel.insert(productName);
+  const newProductId = await productsModel.insert(product.name);
 
   const newProduct = await findById(newProductId);
 
   return newProduct;
 };
 
-const update = async (productName, productId) => {
-  const validation = schemas.validateProductName(productName);
-
-  if (HttpError.isHttpError(validation)) throw validation;
+const update = async (product, productId) => {
+  schemas.validateProductName(product);
 
   await findById(productId);
 
-  await productsModel.update(productName, productId);
+  await productsModel.update(product.name, productId);
 
   const updatedProduct = await findById(productId);
 
